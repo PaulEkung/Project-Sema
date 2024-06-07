@@ -55,7 +55,7 @@ $checkConnection = check_supervisor_login($connector);
  
 }
 .form-bg{
-    border-radius: 50px;
+    border-radius: 30px;
 }
 </style>
 </head>
@@ -65,6 +65,8 @@ $checkConnection = check_supervisor_login($connector);
 
     <br>
         <div class="container  alert alert-secondary form-bg">
+            &nbsp;&nbsp;
+            <a href="sup.dashboard.php" class="bi bi-arrow-left text-secondary fs-3"></a>
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
@@ -101,7 +103,7 @@ $checkConnection = check_supervisor_login($connector);
                         <br>
                         <option value="Adagom1 settlement">Adagom1 settlement</option>
                         <option value="Adagom3 settlement">Adagom3 settlement</option>
-                        <option value="Okende settlement">Okende settlement</option>
+                        <option value="Ukende settlement">Ukende settlement</option>
                       
                     </optgroup>
                 </select>

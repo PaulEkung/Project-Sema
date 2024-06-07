@@ -39,6 +39,7 @@ $sql = "SELECT * FROM `crimes` ORDER BY `crimeId` ASC";
 
 body{
     background: url("static/images/bg.jpg");
+    background-blend-mode: darken;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -69,10 +70,11 @@ body{
 }
 
 
+
 </style>
 
 </head>
-<body class="bg-light">
+<body  style="background-color: rgba(0, 0, 0, 0.459);">
 <section>
         <header>
             <nav class="nav navbar navbar-expand p-3" id="nav">
@@ -80,9 +82,11 @@ body{
             <h1 class="text-uppercase text-light fw-bold">crsema</h1>
                 <menu class="ms-auto nav">
                 <ul class="nav navbar-nav p-4" id="login-ul">
-                    <li class="nav-item active"><a href="login.php" class="text-light p-2 text-decoration-none border border-light border-2 rounded-2">Login</a></li>
+                    <li class="nav-item active"><a href="login.php" class="text-light p-2 text-decoration-none">Login</a></li>
                     &nbsp;  &nbsp;
-                    <li class="nav-item"><a href="search.crimes.php" class="text-light p-2 text-decoration-none">Search Crime</a></li>
+                    <li class="nav-item"><a href="search.crimes.php" class="text-light p-2 text-decoration-none border border-light border-2 rounded-2">Search crime</a></li>
+                      &nbsp;  &nbsp;
+                    <li class="nav-item"><a href="quick.report.php" class="text-light p-2 text-decoration-none">Quick report</a></li>
                       &nbsp;  &nbsp;
                    
                     <li class="nav-item"><a href="index.php" class="text-light text-decoration-none p-2">Home</a></li>
@@ -99,7 +103,7 @@ body{
 
                     <form action="search.crimes.php" method="POST">
                         <div class="form-group position-relative">
-                            <input type="text" name="progress" class="form-control form-control-lg w-50" id="search_box" placeholder="Enter Individual's Progress Number" onkeyup="javascript:load_data(this)"/>
+                            <input type="text" name="progress" class="form-control form-control-lg w-50" id="search_box" placeholder="Search by progress number or name" onkeyup="javascript:load_data(this)"/>
                             <button type="submit" name="submit" class="border-0 bi bi-search offset-0 fs-4 p-2">
                                 
                                 </button> 
@@ -118,10 +122,10 @@ body{
                     $get_result = $_POST["progress"];
                     if(empty($get_result)){
                         echo "<div class=' alert alert-danger alert-dismissible w-50 text-center shadow'>
-                        Please provide a progress number
+                        Please provide a progress/registration number
                         </div>";
                     }else{
-                        $sql = $connector ->query("SELECT * FROM `crimes` WHERE `progressNumber` = '$get_result'");
+                        $sql = $connector -> query("SELECT * FROM `crimes` WHERE crimes.progressNumber = '$get_result' or crimes.OffendersName = '$get_result' or crimes.OffendersName LIKE '%$get_result%' or crimes.progressNumber LIKE '%$get_result%'");
                         if($sql -> num_rows > 0){
                            while($row = $sql->fetch_assoc()){
                             $name = $row["OffendersName"];
@@ -194,12 +198,13 @@ body{
 
             </div>
 
+
             <section>
                 <br>
             
                 <footer class="footer p-4 text-light fixed-bottom" id="footer">
-                    <p>Powered by <span class="text-warning fw-bold text-capitalize">DS Tech Hub </span></p>
-                    <!-- Copyrights &copy; 2023 Digital Systems Technology Hub -->
+           <p>Powered by <a href="" class="text-warning text-decoration-none">Digital Systems Technologies </a></p>
+
                
         </footer>
         

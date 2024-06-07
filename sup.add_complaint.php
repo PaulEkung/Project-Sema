@@ -46,7 +46,7 @@ $checkConnection = check_supervisor_login($connector);
 }
 
 .form-bg{
-    border-radius: 50px;
+    border-radius: 10px;
 }
 .heading{
     background: rgb(5, 69, 93);
@@ -62,29 +62,19 @@ $checkConnection = check_supervisor_login($connector);
 </style>
 
 </head>
-<body>
-<br>
-<a href="sup.dashboard.php" class="p-2 text-dark bi bi-arrow-left-circle fs-2"></a>
-<br>
+<body class="alert alert-secondary">
 
-<div class="container alert alert-secondary form-bg">
+
+<div class="container form-bg">
+
+    <a href="sup.dashboard.php" class="p-2 text-dark bi bi-arrow-left fs-2"></a>
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-            <br>
-            <br>
-            <br>
-            <br>
-         
 
                 <div class="form">
                 <div class="form-group">
-                <h3 class="p-3 text-light heading text-center fw-bold">
                 
-                Add complaints records
-                 <p></p>
-             
-         </h3>
                     <form action="sup.add_complaint.php" method="post" autocomplete="off" enctype="multipart/form-data" class="p-4 shadow-lg" style="background:rgba(5, 5, 5, 0.371);">
                     <?php $caller = postComplaint($connector) ?>
                     <!-- <label for="image" class="text-light">Enter complaint subject</label> -->

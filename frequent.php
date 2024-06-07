@@ -62,27 +62,35 @@ background: #0f31517d;
         <!-- navigation bar section -->
         <header>
             <nav class="nav navbar navbar-expand p-3" id="login-nav">
-            <img src="static/images/OIP.jpg" class="rounded-circle" style="width: 70px" alt="">
-               <p class="fs-4 text-light"> &nbsp;<?php echo $user ?></p>
-               <a href="pm.dashboard.php" class="ms-auto bi bi-arrow-right-circle fs-2 text-light" ></a>
+            <a href="pm.dashboard.php" class="bi bi-arrow-left-circle-fill fs-1 text-light" ></a>
+                <span class="ms-auto">
+
+                    <?php 
+                if(isset($_SESSION["image"])){
+                    $img = $_SESSION["image"];
+                    echo $img;
+                }
+                ?>
+                </span>
+            
                 </nav>
         </header>
 </section>
 <!-- <br> -->
 <div class="container context-container">
 <?php 
-$sql = $connector->query("SELECT *, COUNT(*) AS crime_count FROM `crimes` GROUP BY `progressNumber` HAVING count(*) > 1");
+$sql = $connector->query("SELECT progressNumber, OffendersName, COUNT(*) AS crime_count FROM `crimes` GROUP BY `progressNumber`, `OffendersName` HAVING count(*) > 1");
 if($sql -> num_rows > 0){
-
+    
     while($row = $sql -> fetch_assoc()){
-        $image = $row["offendersImage"];
         $name = $row["OffendersName"];
-        $age = $row["age"];
         $progress = $row["progressNumber"];
-        $address = $row["houseAddress"];
-        $settlement = $row["settlement"];
-        $category = $row["crimeCategory"];
         $count = $row["crime_count"];
+        $q = $connector->query("SELECT `offendersImage` FROM `crimes` WHERE `progressNumber` = '$progress'");
+        if($q){
+            $q_row = $q -> fetch_assoc();
+            $image = $q_row["offendersImage"];
+        }
         ?>
 
         <div class="row">
@@ -183,7 +191,7 @@ if($sql -> num_rows > 0){
             </td>
             <td class="text-center">
                 <br>
-                   <a href="frequent.full_report.php?p_number=<?php echo $progress ?>" class="btn btn-dark">See <?php echo $count ?> reports</a>
+                   <a href="frequent.full_report.php?p_number=<?php echo $progress ?>" class="btn btn-dark">See all <?php echo $count ?> reports</a>
             </td>
             </tr>
 
@@ -210,9 +218,9 @@ if($sql -> num_rows > 0){
 
 <!-- footer section -->
                 <footer class="footer p-4 text-light fixed-bottom" id="login-footer">
-                    <p>Powered by <span class="text-warning text-capitalize">DS Tech Hub</span></p>
-                    <!-- Copyrights &copy; 2023 Digital Systems Technology Hub -->
-                 
+           <p>Powered by <a href="" class="text-warning text-decoration-none">Digital Systems Technologies </a></p>
+
+                  
                 </footer>
         
     </section>

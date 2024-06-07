@@ -7,9 +7,9 @@ if(isset($_POST["submit"])){
 
     if(emptyInputs($username, $password) === true){
 
-        echo "<div class=\"alert alert-danger text-center error shadow\">Username and password required.</div>";
+        echo "<div class=\"alert alert-danger text-center error p-4 fw-bold\">Username and password required.</div>";
 }elseif(checkUserExists($connector, $username) === true){
-    echo "<div class=\"alert alert-danger text-center error shadow\">
+    echo "<div class=\"alert alert-danger text-center error\">
     <b>Access denied </b>
     <br/>
     Unknown user information.

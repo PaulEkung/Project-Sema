@@ -62,9 +62,17 @@ background: #0f31517d;
         <!-- navigation bar section -->
         <header>
             <nav class="nav navbar navbar-expand p-3" id="login-nav">
-            <img src="static/images/OIP.jpg" class="rounded-circle" style="width: 70px" alt="">
-               <p class="fs-4 text-light"> &nbsp;<?php echo $user ?></p>
-               <a href="pm.dashboard.php" class="ms-auto bi bi-arrow-right-circle fs-2 text-light" ></a>
+                <a href="pm.dashboard.php" class="bi bi-arrow-left-circle-fill fs-1 text-light" ></a>
+                <span class="ms-auto">
+
+                    <?php 
+                if(isset($_SESSION["image"])){
+                    $img = $_SESSION["image"];
+                    echo $img;
+                }
+                ?>
+                </span>
+                
                 </nav>
         </header>
 </section>
@@ -75,7 +83,7 @@ if(isset($_POST["submit3"])){
     $search_result = strtolower($_POST["complaint_subject"]); 
     // $search_result = strtoupper($_POST["complaint_subject"]); 
     $match_pattern = $search_result[0] . $search_result[1] . $search_result[2] . $search_result[3] . $search_result[4] . $search_result[5] . $search_result[6] . $search_result[7] . $search_result[8] . $search_result[9];
-    $sql = $connector -> query("SELECT * FROM `complaints` WHERE `subject` LIKE  '%$match_pattern%' or '%$match_pattern%'; ");
+    $sql = $connector -> query("SELECT * FROM `complaints` WHERE `subject` LIKE  '%$match_pattern%' OR '%$match_pattern%'; ");
     if($sql -> num_rows > 0){
         while($row = $sql -> fetch_assoc()){
             $search_subject = $row["subject"];
@@ -84,43 +92,44 @@ if(isset($_POST["submit3"])){
             $writer = $row["writer"];
             $date = $row["date"];
             ?>
-<div class="row">
-                                    <div class="col-md-1">
-                                 </div>
-                                    <div class="col-md-10 p-3 bg-light context-column">
 
-                                    <h2 class="fs-2 fw-bold">
+            <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10 p-3 bg-light context-column">
 
-                                        <?php echo $search_subject ?>
-                                        <span class="float-end text-secondary">
-                                            <?php echo $writer ?>
+            <h2 class="fs-2 fw-bold">
 
-                                            <p class="fw-bold text-primary"><?php echo $date ?></p>
-                                        </span>
-                                    </h2>
-                                    <hr>
-                                    <br>
-                                    <p class="lead">
-                                        <?php echo $search_context ?>
-                        </p>
-                                    <center>
+                <?php echo $search_subject ?>
+                <span class="float-end text-secondary">
+                    <?php echo $writer ?>
 
-                                        <?php 
-                                        if(empty($sample_image)){
-                                            echo null;
-                                        }else{
-                                        echo "<a href='uploads/$sample_image'><img src='uploads/$sample_image' class='border border-secondary border-0 w-50'></a>";
-                                        }
-                                         ?>
-                                    </center>
-                                   
-                                    </div>
-                                    <br>
-                                     <br>
-                                    <div class="col-md-1">
-                                      
-                                    </div>
-                                </div>
+                    <p class="fw-bold text-primary"><?php echo $date ?></p>
+                </span>
+            </h2>
+            <hr>
+            <br>
+            <p class="lead">
+                <?php echo $search_context ?>
+            </p>
+            <center>
+
+                <?php 
+                if(empty($sample_image)){
+                    echo null;
+                }else{
+                echo "<a href='uploads/$sample_image'><img src='uploads/$sample_image' class='border border-secondary border-0 w-50'></a>";
+                }
+                    ?>
+            </center>
+            
+            </div>
+            <br>
+                <br>
+            <div class="col-md-1">
+                
+            </div>
+        </div>
                                 
             <?php
         }
@@ -195,18 +204,18 @@ if(isset($_POST["submit3"])){
 
             }
             ?>
-</div>
-<br>
-<br>
-<br>
-<br>
-<br>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
                     <section>
 
 <!-- footer section -->
                 <footer class="footer p-4 text-light fixed-bottom" id="login-footer">
-                    <p>Powered by <span class="text-warning text-capitalize">DS Tech Hub</span></p>
-                    <!-- Copyrights &copy; 2023 Digital Systems Technology Hub -->
+           <p>Powered by <a href="" class="text-warning text-decoration-none">Digital Systems Technologies </a></p>
+
                  
                 </footer>
         

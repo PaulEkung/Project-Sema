@@ -83,23 +83,23 @@ place-content: center;
 }
 
 .loader{
-    pointer-events: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #fff;
-    animation: an1 1s ease infinite;
-}
+        pointer-events: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-top-color: #fff;
+        animation: an1 1s ease infinite;
+    }
 
-@keyframes an1 {
+/* @keyframes an1 {
     0%{
         transform: rotate(0turn);
     }
     100%{
         transform: rotate(1turn);
     }
-}
+} */
 
 .loader_bg{
     position: fixed;
@@ -107,18 +107,35 @@ place-content: center;
     background: #fff;
     width : 100%;
     height: 100%;
+    background: rgb(177, 177, 176);
 }
 .preloader{
     border: 0 solid transparent;
     border-radius: 50%;
     width : 150px;
     height: 150px;
+    background: white;
     position: absolute;
     top: calc(50vh - 75px);
     left: calc(50vw - 75px);
-
 }
-.preloader:before, .preloader:after{
+
+.preloader span{
+    position: fixed;
+    font-size: 80px;
+    color: darkred;
+    top: calc(55vh - 75px);
+    left: calc(28vw - 75px);
+}
+.preloader p{
+    position: fixed;
+    color : black;
+    font-weight: 700;
+    font-size: 40px;
+    top: calc(49vh - 75px);
+    left: calc(45vw - 75px);
+}
+/* .preloader:before, .preloader:after{
     content: '';
     border: 1em solid dodgerblue;
     border-radius: 50%;
@@ -130,11 +147,11 @@ place-content: center;
     animation: loader 2s linear infinite;
     opacity: 0;
 
-}
+} */
 .preloader:before{
     animation-delay: .5s; 
 }
-@keyframes loader{
+/* @keyframes loader{
     0%{
         transform: scale(0);
         opacity: 0;
@@ -146,7 +163,9 @@ place-content: center;
         transform: scale(1);
         opacity: 0;
     }
-}
+} */
+
+
 
 </style>
     
@@ -154,10 +173,13 @@ place-content: center;
 
 <body>
 
+
+
 <div class="loader_bg">
     <div class="preloader">
-
-    </div>
+        <p>Powered by</p>
+        <span class="fw-bold">DS TECHNOLOGIES</span>
+        </div>
 
 </div>
     <main>
@@ -167,9 +189,16 @@ place-content: center;
                 <nav class="nav p-3 index-nav" id="index-nav">
                     <img id="logo" src="static/images/logo.jpg" class="rounded-circle" alt="image">
                     <h1 class="text-uppercase text-light fw-bold">crsema</h1>
-                    <!-- <a href="" class="text-light offset-4 text-decoration-none btn btn"> About</a> -->
+                 
                     <menu class="ms-auto">
                         <ul class="nav text-light ms-auto">
+
+                        <li>
+                            <br>
+                        
+                            <a href="#about" data-bs-toggle="modal" class="btn btn text-light">About Us</a>
+
+                        </li>
                            
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <li>
@@ -197,7 +226,7 @@ place-content: center;
                 <h3 class="text-light">Security Information Management System</h3>
                 <p class="text-warning lead">Shielding the agency with a better administrative performance</p>
                 <hr>
-                <a href="login.php" class="btn btn-outline-primary border border-primary border-2 text-light p-3 w-25 redirect-btn" id="btn">Get Started</a>
+                <a href="login.php" class="btn btn-outline-primary border border-primary border-2 text-light p-3 w-50 redirect-btn" id="btn">Click to proceed</a>
                
                 </div>
                 <script type="text/javascript">
@@ -221,107 +250,41 @@ place-content: center;
                 </div>
             </div>
 
-        <section class="p-5 bg-light">
-        <!-- style="background-color: rgba(0, 0, 0, 0.531); -->
-    
-    <div id="slides" class="carousel slide" data-bs-ride="carousel">
-       <div class="carousel-indicators">
-
-       <button type="button" data-bs-target="#slides" data-bs-slide-to="0" class="active bg-primary"></button>
-       <button type="button" data-bs-target="#slides" data-bs-slide-to="1" class="bg-primary"></button>
-       <button type="button" data-bs-target="#slides" data-bs-slide-to="2" class="bg-primary"></button>
-       </div>
-               
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-<!-- first carousel item -->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-7 bg-light">
-                        <h1 class="d-block w-100 text-dark fw-bold fs-1 lead">
-                            
-                            Easily keep track and manage all crime cases from anywhere, anytime.
-
-                            </h1>
-                            <!-- <h3 class="text-danger">Think about this!</h3> -->
-                            <p class="lead end-100">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                                <!-- <br> -->
-                                Obcaecati sint molestiae in minus eaque. Ipsam explicabo debitis velit laboriosam cum! Dolore, 
-                                <!-- <br> -->
-                               
-                                
-                            </p>
-                        </div>
-                        <div class="col-md-5">
-                            <img src="static/images/hancoff.jpg" class="w-100" alt="webman">
-                        </div>
-                    
-                        
-                        </div>
-                    </div>
-                </div>
-
-        <div class="carousel-item">
-<!-- second carousel item -->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-5">
-                        
-                            <img src="static/images/write.jpg" class="w-100" alt="webman">
-                        </div>
-
-                        <div class="col-md-7">
-                        <h1 class="d-block w-100 text-primary fw-bold fs-1 lead">
-                            
-                            Handle all incoming complaints in one system
-
-                            </h1>
-                            <p class="lead end-100">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                                <!-- <br> -->
-                                Obcaecati sint molestiae in minus eaque. Ipsam explicabo debitis velit laboriosam cum! Dolore, 
-                                <!-- <br> -->
-                                aliquam cupiditate. Dicta possimus quidem labore dolores et praesentium!
-                                
-                            </p>
-                        </div>
-                    
-                        </div>
-                    </div>
-                </div>
-
-        <div class="carousel-item">
-<!-- third carousel item -->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-7">
-                        <h1 class="d-block w-100 text-warning fw-bold fs-1 lead">
-                            Easily keep track and manage all crime cases in one unit.
-                            </h1>
-                            <p class="lead end-100">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                                <!-- <br> -->
-                                Obcaecati sint molestiae in minus eaque. Ipsam explicabo debitis velit laboriosam cum! Dolore, 
-                                <!-- <br> -->
-                                aliquam cupiditate. Dicta possimus quidem labore dolores et praesentium!
-                                
-                            </p>
-                        </div>
-                        <div class="col-md-5">
-                            <img src="static/images/webman.jpg" class="w-100" alt="webman">
-                        </div>
-                    
-                        
-                        </div>
-                    </div>
-                </div>
-                
-            
         
-            </div>
-            </div>
+                <div class="container w-100">
+                    <div class="row">
+                        <div class="modal fade w-100" id="about" role="dialog">
+                            <div class="modal-dialog w-100">
+                                <div class="modal-content w-100">
+                                    <div class="modal-header bg-dark text-warning">
+                                    <h3>About CRSEMA</h3>    <span class="btn btn-close btn-close-white" data-bs-dismiss="modal"></span>
+                                    </div>
+                                    <div class="modal-body w-100">
+                                        <p class="lead">The Cross River State Emergency Management Agency(CRSEMA) is a government agency in Nigeria responsible for coordinating and managing emergency and disaster response efforts within the state. 
+                                            <br>
+                                            <br>
+                                            <img src="static/images/event_tech 43.jpg" class="w-100" alt="">
+                                            <br>
+                                            <br>
+                                            It is tasked with developing and implementing strategies to mitagate the impact of disasters, as well as providing relief and support to affected communities.
+                                            <br>
+                                            <br>
+                                            <img src="static//images//graduates.jpg" class="w-100" alt=""><!-- double slashes can also be used to enter file directory-->
+                                            <br>
+                                            <br>
+                                            SEMA works closely with various stakeholders, including government agencies, non-governmental organizations, and international partners, to ensure effective disaster preparedness and response. 
+                                            <br>
+                                            The agency plays a crucial role in safeguarding the lives and property of the residents of Cross River State during times of crisis.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </section>
-    
-        <footer class="footer text-light p-4" id="index-footer">
-           <p>Powered by <a href="" class="text-warning ">DS Tech Hub </a></p>
+        <footer class="footer text-light p-5 fs-1" id="index-footer">
+           <p>Powered by <a href="" class="text-warning text-decoration-none">Digital Systems Technologies </a></p>
         </footer>
     </main>
 <script src="static/bootstrap-5.1.3/dist/js/bootstrap.js" defer></script>

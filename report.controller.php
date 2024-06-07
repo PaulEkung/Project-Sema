@@ -8,6 +8,13 @@ if(isset($_POST["submit"]) && isset($_FILES["image"]["name"])) {
      $age = $_POST["age"];
      $settlement = $_POST["settlement"]; $address = $_POST["address"];  $case = $_POST["crime"]; $description = $_POST["description"]; $date = $_POST["crimeDate"]; $severity = null;
      $reporter = $_POST["reporter"];
+
+     $__query = $connector -> query("SELECT `phone` FROM `users` WHERE users.username = 'PMSEMA';");
+     if($__query == true){
+        $_row = $__query -> fetch_assoc();
+        $phone = $_row['phone'];
+    }
+
       $image_name = $_FILES["image"]["name"];     
         $tmp_name = $_FILES["image"]["tmp_name"]; 
         $img_size = $_FILES["image"]["size"];  
@@ -17,7 +24,8 @@ if(isset($_POST["submit"]) && isset($_FILES["image"]["name"])) {
         $img_ex_to_lc = strtolower($img_ex);
         $allowed_exs = array('jpg','png','jpeg');
         if(in_array($img_ex_to_lc, $allowed_exs)){
-            if($img_size > 4000000){
+            $max_size = 50 * 1024 * 1024;
+            if($img_size > $max_size){
 
                 define("error", "<div class='alert alert-danger offset-0 shadow text-center'>The image size is too large</div>", false);
                 echo error;
@@ -42,6 +50,8 @@ if(isset($_POST["submit"]) && isset($_FILES["image"]["name"])) {
     
     }elseif(checkMaxWordsInDesField($description) === true){
         echo "<div class=\"alert alert-danger text-center fw-bold error shadow\">Maximum words for description exceeded</div>";
+    }elseif(validProgressNumber($progress_number !== true)){
+        echo "<div class=\"alert alert-danger text-center fw-bold error shadow\">Invalid registration number format..</div>";
     }else{
             $approvalStatus = "Under investigation";
             $category = null;
@@ -89,8 +99,48 @@ if(isset($_POST["submit"]) && isset($_FILES["image"]["name"])) {
             {
                 
                 move_uploaded_file($tmp_name, $img_upload_path); 
-                
-                // if($reporter == "Supervisor(Adagom1 settlement)"){
+
+                // sms 
+                $api_key = "";
+                $api_token = "";
+                $sender_phone_num = "";
+                $reciever_phone_num = $phone;
+                $sms_message = "Dear supervisor, " . "\n" . "Your fieldworker just posted a new report. Kindly logging to your dashboard and view report.";
+                $reciever_phone_num = [$reciever_phone_num];// set an array of multiple nubers to recieve sms.
+            // store all variables in one.
+                $content = [
+                'to' => $reciever_phone_num,
+                'from' => $sender_phone_num,
+                'body' => $sms_message
+                ];
+
+                //convert the content to json
+                $json_content = json_encode($content);
+                //making http request in order to use the API service
+                $ch = curl_init("https://sms.api.sinch.com/xms/v1/{$api_key}/batches");
+                //use authentication(api) token
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    'Content-type: application/json',
+                    'Authorization: Bearer ' . $api_token
+                ));
+                curl_setopt($ch, CURLOPT_POST, true);//post request
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $json_content);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+                //makeexecute the HTTP request
+                $curl_exec_result = curl_exec($ch); //returns whether HTTP was successful or not
+                //check the result
+                if(curl_errno($ch)){
+                    echo "Failure";//first option
+                    echo "Error " . curl_error($ch);//second option
+                }else{
+                    echo "Success"; //first option
+                    echo $curl_exec_result; //second option
+                }
+                // close connection with server
+                curl_close($ch);
+
                     header("Location: sup.dashboard.php");
 
             
@@ -104,7 +154,7 @@ if(isset($_POST["submit"]) && isset($_FILES["image"]["name"])) {
         }
     
     }else{
-        echo "<div class='text-center alert alert-danger offset-0 w-100 text-start'>Once you have submitted this form, you will not be able to edit your responses. Please make sure that all of the information you have provided is accurate and complete before clicking the submit button.</div>";
+        echo "<div class='text-center alert alert-warning offset-0 w-100 text-start'>Once you have submitted this form, you will not be able to edit your responses. Please make sure that all of the information you have provided is accurate and complete before clicking the submit button.</div>";
     }
 }
 

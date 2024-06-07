@@ -2,6 +2,13 @@
  require_once 'db.connection.php';
  require_once 'views.php';
  require_once 'login.controller.php';
+ if(isset($_GET["success"])){
+    echo "<script>window.alert('Report sent successfully!')</script>";
+ }elseif(isset($_GET["smsSuccess"])){
+    echo "<script>window.alert('sms notification sent successfully!')</script>";
+ }elseif(isset($_GET["smsFailed"])){
+    echo "<script>window.alert('Failed to send sms notification')</script>";
+ }
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +63,7 @@
 
 body{
     /* background styling */
-    background: url("static/images/bg.jpg");
+    background: url("static/images/slider-img.jpg");
     background-blend-mode: darken;
     background-size: cover;
     background-repeat: no-repeat;
@@ -91,10 +98,6 @@ background: rgb(5, 69, 93);
     font-size: 20px;
 }
 
-.lock-image{
-    pointer-events: none;
-}
-
 input[type="password"]:focus{
     outline: none;
 }
@@ -103,10 +106,12 @@ input[type="password"]:focus{
     position: relative;
     top: -40px;
     left: 64%;
+    
 }
 
-#bg-con{
-    border-radius: 30px;
+.form-group{
+    border-radius: 20px;
+
 }
 
 .col-md-5{
@@ -115,12 +120,11 @@ input[type="password"]:focus{
 }
 
 
-
 </style>
 
         
 </head>
-<body>
+<body style="background-color: rgba(0, 0, 0, 0.059);">
 <div class="loader_bg">
     <div class="preloader">
 
@@ -138,7 +142,9 @@ input[type="password"]:focus{
                 <ul class="nav navbar-nav p-4" id="login-ul">
                     <li class="nav-item active"><a href="login.php" class="text-light p-2 text-decoration-none border border-light border-2 rounded-2">Login</a></li>
                     &nbsp;  &nbsp;
-                    <li class="nav-item"><a href="search.crimes.php" class="text-light p-2 text-decoration-none">Search Crime</a></li>
+                    <li class="nav-item"><a href="security_key.php" class="text-light p-2 text-decoration-none">Search crime</a></li>
+                      &nbsp;  &nbsp;
+                    <li class="nav-item"><a href="quick.report.php" class="text-light p-2 text-decoration-none">Quick report</a></li>
                       &nbsp;  &nbsp;
                    
                     <li class="nav-item"><a href="index.php" class="text-light text-decoration-none p-2">Home</a></li>
@@ -150,7 +156,7 @@ input[type="password"]:focus{
 
 <br>
 <br>
-        <div class="container alert alert-secondary" id="bg-con">
+        <div class="container" id="bg-con">
    
 <div class="row g-0">
 
@@ -158,33 +164,43 @@ input[type="password"]:focus{
    
 </div>
     
-    <div class="col-md-5 p-5 bg-light">
+    <div class="col-md-5">
         <!-- login form -->
-        <div class="form-group position-relative">
 
-            <form action="login.php"  method="post" class="alert alert-secondary shadow p-5 rounded-2" autocomplete="off">
             <?php
             $call_script = UserLogin($connector);
             ?>      
+        <div class="form-group position-relative bg-light">
+            <form action="login.php"  method="post" class="p-5 rounded-2" autocomplete="off">
                 
                 <input type="text" name="username" class="form-control form-control-lg border-2" placeholder="Enter username">
                 <br>
                 
                 <input type="password" name="password" class="form-control-lg form-control" placeholder="Enter password" id="pwd">
-
+                
                 <span class="bi bi-eye-slash offset-3 fs-4" id="eye" style="cursor:pointer;color:darkred" onclick="showPass(this)"></span>
+            
                 <br>
-
                 <script type="text/javascript">
                 var check_pass_input = document.querySelector("#pwd");
+        
                 check_pass_input.addEventListener("keyup", function(){
                 if(check_pass_input.value.length == 0 || check_pass_input.value.length < 8){
                 check_pass_input.style.border = "3px solid rgba(177, 13, 13, 0.726)";
+                
                 }else{
                     check_pass_input.style.border = "3px solid dodgerblue";
+
                 }
             })
+
+                // var pwd_strenth = document.querySelector("#pwd-strenth");
+                // pwd_strenth.addEventListener("keyup", function(){
+                //     if(check_pass_input)
+                // })
+            
             </script>
+
                 
                 <input type="submit" name="submit" class="btn btn w-100 text-light btn-submit p-2">
 
@@ -198,25 +214,16 @@ input[type="password"]:focus{
 
 <div class="col-md-4"></div>
 </div>
+</div>
 <br>
 <br>
-<br>
-        </div>
     
-          
-<!-- <br>
-<br>
-<br>
-<br>
-<br> -->
-<!-- </main> -->
 <section>
 
 <!-- footer section -->
-                <footer class="footer p-4 text-light fixed-bottom" id="login-footer">
-                    <p>Powered by <span class="text-warning text-capitalize">DS Tech Hub</span></p>
-                    <!-- Copyrights &copy; 2023 Digital Systems Technology Hub -->
-                 
+                <footer class="footer p-5 text-light fixed-botto" id="login-footer">
+           <p>Powered by <a href="" class="text-warning text-decoration-none">Digital Systems Technologies </a></p>
+
                
         </footer>
         
@@ -227,6 +234,7 @@ input[type="password"]:focus{
 
 <script src="static/bootstrap-5.1.3/dist/js/bootstrap.js'" defer></script>
 <script src="static/bootstrap-5.1.3/dist/js/bootstrap.min.js" defer></script>
+
 
 </body>   
   

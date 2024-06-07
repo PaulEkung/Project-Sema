@@ -1,12 +1,17 @@
 <?php
-session_start();
+// session_start();
 require_once 'db.connection.php';
+require_once 'views.php';
 require_once 'sessions.php';
 
  if(isset($_SESSION["superUser"])){
     $user = $_SESSION['superUser'];
+    
+}
 
-    }
+if(isset($_SESSION["name"])){
+$username = $_SESSION["name"];
+}
    
     $checkConnection = check_superUser_login($connector);
     // $checkConnection2 = check_dg_login($connector);
@@ -41,7 +46,7 @@ body{
 }
 
 .sidenav{
-    height: 95%;
+    height: 100%;
     width: 0;
     position: fixed;
     z-index: 100;
@@ -53,6 +58,29 @@ body{
     transition: 0.1s;
 
     }
+#updateProfileImg{
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    /* background: black; */
+     overflow-x: hidden;
+    padding-top: 90px;
+    transition: 0.1s;  
+
+    }
+    #updateProfileImg .closebutton{
+        position: relative;
+        top: -1.5rem;
+        right: 0;
+        font-size: 30px;
+        margin-left: 20rem;
+        cursor: pointer; 
+         /* float: right; */
+    }
+
 
 
     .sidenav a{
@@ -79,12 +107,12 @@ body{
 
     .sidenav .closebtn{
         position: relative;
-        top: -1.5rem;
+        top: -1.2rem;
         right: 0;
         font-size: 30px;
         margin-left: 20rem;
-        cursor: pointer;
-        /* float: right; */
+        cursor: pointer; 
+         /* float: right; */
     }
 
     .sidenav .dashboard{
@@ -151,6 +179,12 @@ nav{
     left: calc(50vw - 75px);
 
 }
+.preloader span{
+    position: fixed;
+    top: calc(65vh - 75px);
+    left: calc(52.5vw - 75px);
+}
+
 .preloader:before, .preloader:after{
     content: '';
     border: 1em solid darkorange;
@@ -181,6 +215,24 @@ nav{
     }
 }
 
+#border-line{
+   
+    width: 200px;
+    background: rgba(185, 185, 182, 0.729);
+    
+}
+
+#adder{
+    background: rgba(185, 185, 182, 0.602);
+    
+    
+}
+
+#dash-text{
+    top:50px;
+    margin: 0 0 0 25%;
+}
+
     </style>
 
     <script type="text/javascript">
@@ -188,20 +240,86 @@ nav{
         document.getElementById("mySidenav").style.width ="420px";
         // document.getElementById("mySidenav").style.background = "rgba(0,0,0,0.5)";
         document.getElementById("main").style.marginLeft ="100px";
-        // document.getElementById("main").style.opacity ="0.1";
-        // document.getElementById("main").style.opacity ="0.1";
+       
     }
+
     function closeNav(){
         document.getElementById("mySidenav").style.width ="0";
         document.getElementById("main").style.marginLeft ="0";
         // document.getElementById("main").style.opacity ="100";
     }
+
+    function open_nav(){
+        document.getElementById("updateProfileImg").style.width ="420px";
+      
+    }
+
+    function close_nav(){
+        document.getElementById("updateProfileImg").style.width ="0";
+        // document.getElementById("main").style.marginLeft ="0";
+        // document.getElementById("main").style.opacity ="100";
+    }
+
     </script>
 </head>
 <body>
+<?php
+if(isset($_GET["uploadSuccess"])){
+    echo "<script>window.alert('Profile image updated successfully! Changes will reflect after re-login')</script>";
+}elseif(isset($_GET["uploadFailed"])){
+    echo "<script>window.alert('Failed to update profile image! Please try again.')</script>";
+
+}elseif(isset($_GET["emptyInput"])){
+    echo "<script>window.alert('Please select an image to upload')</script>";
+    
+}elseif(isset($_GET["typeError"])){
+    echo "<script>window.alert('Cannot upload images of this type')</script>";
+    
+}elseif(isset($_GET["sizeError"])){
+    
+    echo "<script>window.alert('The image size is too large')</script>";
+
+}elseif(isset($_GET["emptynumField"])){
+    echo "<script>window.alert('Mobile number field cannot be empty')</script>";
+
+}elseif(isset($_GET["invalidnum"])){
+    echo "<script>window.alert('Invalid phone number')</script>";
+    
+}elseif(isset($_GET["containLetters"])){
+    echo "<script>window.alert('Phone number cannot contain letters')</script>";
+
+}elseif(isset($_GET["successUpdatePhone"])){
+    echo "<script>window.alert('Phone number updated successfully.')</script>";
+
+}elseif(isset($_GET["updatePhoneError"])){
+    echo "<script>window.alert('Failed to update phone number! Something went wrong.')</script>";
+
+}elseif(isset($_GET["country_codeErr"])){
+    echo "<script>window.alert('The country code you entered is incorrect!')</script>";
+
+}elseif(isset($_GET["fileTooLargeError"])){
+    echo "<script>window.alert('The file size is too large. Please select a file size lesser than 50mb')</script>";
+
+}elseif(isset($_GET["fileTooLargeError"])){
+    echo "<script>window.alert('The file size is too large. Please select a file size lesser than 50mb')</script>";
+
+}elseif(isset($_GET["unknownError"])){
+    echo "<script>window.alert('Failed to update report due to an unknown image error! Please try again.')</script>";
+
+}elseif(isset($_GET["invalidFileType"])){
+    echo "<script>window.alert('Failed to update report! You can only upload images of the type: jpg,jpeg,png,pdf,jfif')</script>";
+
+}elseif(isset($_GET["updated"])){
+    echo "<script>window.alert('Report updated successfully')</script>";
+
+}elseif(isset($_GET["updateFailed"])){
+    echo "<script>window.alert('Failed to update report! Something went wrong')</script>";
+}
+
+?>
 <div class="loader_bg">
     <div class="preloader">
-
+        <span>Loading...</span>
     </div>
 
 </div>
@@ -221,6 +339,9 @@ nav{
         echo "<script>window.alert('Failed to delete report. Something went wrong')</script>";
 
     }
+   
+
+    
 
      ?>
      
@@ -306,9 +427,16 @@ nav{
     <div id="main">
 <section>
         <header>
-            <nav class="nav navbar navbar-expand p-4" id="nav">
-                <img src="static/images/OIP.jpg" class="rounded-circle" style="width: 70px" alt="">
-               <p class="fs-4 text-light"> &nbsp;<?php echo $user ?></p>
+            <nav class="nav navbar navbar-expand p-3" id="nav">
+                <?php 
+                if(isset($_SESSION["image"])){
+                    $img = $_SESSION["image"];
+                    echo $img;
+                }
+                ?>
+                
+               <p class="fs-4 text-light text-capitalize fw-bold"> &nbsp;<?php echo $user  ?>
+            </p>
                 <menu class="ms-auto nav">
                     <ul class="nav navbar-nav" id="login-ul">
 
@@ -335,23 +463,27 @@ nav{
 <section>
    
 </section>
-    <section class="main p-3">
-    <table class='table table-bordered p-5 table-md text-center table-responsive text-dark fw-bold table-hover alert alert-secondary bg-transparent'>
-        <tr>
-        <th class="p-3 fs-4 text-dark fw-bold">Image</th>
-        <th class="p-3 fs-4 text-dark fw-bold">Name</th>
-        <th class="p-3 fs-4 text-dark fw-bold">Age</th>
-        <th class="p-3 fs-4 text-dark fw-bold">Registration #</th>
-        <th class="p-3 fs-4 text-dark fw-bold">Crime category</th>
-        <th class="p-3 fs-4 text-dark fw-bold">Reporter</th>
-        <th class="p-3 fs-5 fw-bold bg-secondary text-light">Action</th>
-        </tr>
+    <section class="main">
+   
        <?php
        
        function allreports($connector)
        {
            $sql = $connector->query("SELECT * FROM `crimes` ORDER BY `crimeId` DESC");
            if($sql == true && $sql -> num_rows > 0){
+            ?>
+             <table class='table table-bordered p-5 table-md text-center table-responsive text-dark fw-bold table-hover alert alert-secondary bg-transparent'>
+        <tr>
+        <th class="p-3 fs-4 text-dark fw-bold" id="border-line">Image</th>
+        <th class="p-3 fs-4 text-dark fw-bold" id="adder">Name</th>
+        <th class="p-3 fs-4 text-dark fw-bold" id="adder">Age</th>
+        <th class="p-3 fs-4 text-dark fw-bold" id="adder">Registration #</th>
+        <th class="p-3 fs-4 text-dark fw-bold" id="adder">Crime category</th>
+        <th class="p-3 fs-4 text-dark fw-bold" id="adder">Reporter</th>
+        <th class="p-3 fs-4 fw-bold text-dark" id="adder">Action</th>
+        </tr>
+
+            <?php
                while($row = mysqli_fetch_assoc($sql))
                {
                 $fullname = $row["OffendersName"];
@@ -367,15 +499,22 @@ nav{
                 $reporter = $row["reporter"];
                 $date = $row["date"];
                 $id = $row["crimeId"];
+                if($category == "Felony Category"){
+                    $category = "Felony";
+                }elseif($category == "Misdemeanor Category"){
+                    $category = "Misdemeanor";
+                }else{
+                    $category = "Simple Offense";
+                }
                    ?>
                    <tr>
-                   <td class="bg-transparent">
+                   <td class="" id="border-line">
                     <?php  
                      if($image == ""){
-                         echo "<img src='static/images/person.jpg' class='rounded-circle border border-secondary border-3' style='width:90px'>";
+                         echo "<img src='static/images/person.jpg' class='rounded-circle border border-secondary border-3' style='width:90px' id='img'>";
  
                      }else{
-                     echo "<img src='uploads/$image' class='rounded-circle border border-secondary border-0' style='width:90px'>"; 
+                     echo "<img src='uploads/$image' class='rounded-circle border border-secondary border-0' style='width:90px' id='img'>"; 
                      }
                      ?>
                 
@@ -384,7 +523,7 @@ nav{
                    <td class="fw-bold"><br> <?php echo $age ?></td>
                    <td class="fw-bold"><br> <?php echo $progress ?></td>
                    <td class="fw-bold"><br> <?php
-                   if($category == "Felony Category"){
+                   if($category == "Felony"){
                     $sevierity = "<progress id='felony' min='0' max='100' value='90'><progress>";
                        echo "<span class='p-2 fw-bold'>
                        $category
@@ -392,7 +531,7 @@ nav{
                        </span>";
                        echo "<br>";
                        echo $sevierity;
-                    }elseif($category == "Misdemeanor Category"){
+                    }elseif($category == "Misdemeanor"){
                         $sevierity = "<progress id='misdemeanor' min='0' max='100' value='60'><progress>";
                         echo "<span class='p-2 fw-bold'>
                         $category
@@ -414,11 +553,19 @@ nav{
                     // echo $placement;
                      ?>
                     </td>
-                   <td class="fw-bold"><br> <?php 
+                   <td class="fw-bold"><br> 
+                   <?php 
+                   if($reporter == "Supervisor(Adagom1 settlement)"){
+                    $reporter = "Adagom 1";
+                }elseif($reporter == "Supervisor(Ukende settlement)"){
+                    $reporter = "Ukende";
+                }else{
+                    $reporter = "Adagom 3";
+                }
                    echo $reporter;
                    echo "<br>";
                    if($status == "Approved"){
-                    echo "<span class='bi bi-check fs-3 text-info'></span>";
+                    echo "<span class='bi bi-check fs-3 text-primary'></span>";
                    }
                     ?>
                    </td>
@@ -429,19 +576,19 @@ nav{
                    <input type="submit" name="submit2" value="View all" class="btn btn-dark">
                    </form>
                    <br>
-                   <form action="pm.update_report.php" method="post">
-                   <input type="hidden" name="updateId" value="<?php echo $id ?>">
-                   <input type="submit" name="update" value="update" class="btn btn-warning">
-                   </form>
+                 <a href="pm.update_report.php?u_id=<?php echo $id ?>" class="btn btn-warning">Update</a>
                  
-
                    </td> 
                    </tr>
        
                    <?php
                }
             }else{
-               echo "<div class='text-center alert alert-warning offset-0 p-5 w-50'>No report has been added</div>";
+               echo "
+               <center>
+               <div class='text-center alert alert-warning offset-0 p-5 w-50'>No report has been added</div>
+               </center>
+               ";
            }
        }
        
@@ -449,7 +596,7 @@ nav{
 
        ?>
         </table>
-
+<br>
 </section>
 
 <div class="container">
@@ -461,11 +608,15 @@ nav{
             <br>
         <a href="javascript:void(0)" class="closebtn text-light " onclick="closeNav()">&times;</a>
 
-        <span class=" lead fw-semibold dashboard position-absolute  fs-5 text-light">
+        <span class=" lead fw-semibold dashboard position-absolute text-light">
             
-            <img src="static/images/OIP.jpg" class="rounded-circle"  alt="" style="width:50px">
+            <?php echo $img ?>
+            <!-- <img src="static/images/OIP.jpg" class="rounded-circle"  alt="" style="width:50px"> -->
+        </span>         
+        <span class="position-absolute fs-6 text-light fw-semibold" id="dash-text">
+
             <?php echo $user ?>
-         </span>                    
+        </span>           
 
         </div>
         <br>
@@ -473,16 +624,6 @@ nav{
         <li>
         <a href="pm.complaints.php">
         <span class="bi bi-exclamation-triangle-fill text-light fs-3 "></span> &nbsp; Complaints</a>
-        </li>
-        <hr>
-        <li>
-        <a href="#">
-        <span class="bi bi-people text-light fs-3"></span> &nbsp; Settlements
-        <!-- <span class="badge position-absolute mb-5"> -->
-
-     
-        </span>
-        </a>
         </li>
         <hr>
         <li>
@@ -502,8 +643,9 @@ nav{
         <hr>
        
         <li>
-        <a href="#rate" data-bs-toggle="modal">
-        <span class="bi bi-bar-chart-fill text-light fs-3"></span> &nbsp; Statistical Summary</a>
+        <a href="analytics.php">
+        <span class="bi bi-bar-chart-fill text-light fs-3"></span> &nbsp; Statistical Summary
+    </a>
         </li>
         <hr>
         <li>
@@ -516,13 +658,96 @@ nav{
         </ul>
         </div>
         </div>
-<br>
-<br>
- <footer class="footer p-3 fixed-bottom">
 
-<p class="text-light">Powered by <a href="#" class="text-warning text-decoration-none">DS Technologies</a> </p>
-</footer>
-</div>
+        <!-- sidenav2 -->
+
+        <div class="container">
+
+        <div id="updateProfileImg" class="sidenav bg-secondary text-light">
+
+        <div class="container p-2" style="margin-top: -6rem; background:rgb(5, 69, 83);">
+            <br>
+            
+            <br>
+        <a href="javascript:void(0)" class="closebutton text-light " onclick="close_nav()">&times;</a>   
+        <br>             
+        <span class=" lead fw-bold dashboard position-absolute  fs-5 text-light">
+            
+          <span class="bi bi-person fs-2"></span>  Update profile
+         </span>  
+        </div>
+        
+        <!-- <ul> -->
+        <div class="container">
+        <div class="container">
+
+            <form action="profile.php" method="post" enctype="multipart/form-data" class="">
+                <br>
+                
+                <label for="image" class="p-3">Select profile image</label>
+                <input type="file" name="profileImage" class="form-control form-control-lg">
+                <input type="hidden" name="username" value="<?php echo $username ?>">
+                
+                <hr>
+                <input type="submit" value="Update" name="updateImage" class="btn btn-warning w-50">
+            </form>
+            <br>
+            <hr class="p-5 bg-light">
+            <br>
+
+            <form action="profile.php" method="post">
+              
+              <label for="image" class="p-1">Update phone number</label>
+                      <br>
+                      <br>
+                  <div class="row">
+                      <div class="col-md-4">
+                      <input type="tel" name="country_code" value="+234" class="form-control form-control-lg">
+                      </div>
+                      <div class="col-md-8">
+                      <input type="tel" name="num" class="form-control form-control-lg" placeholder="9067476828">
+                      </div>
+                  </div>
+               
+                  <hr>
+                  <input type="hidden" name="user" value="<?php echo $username ?>">
+                  <input type="submit" value="Update" name="updateAdMobile" class="btn btn-dark w-50">
+              </form>
+              <br>
+              <br>
+            </div>
+            </div>
+            <!-- </ul> -->
+            </div>
+            </div>
+            </div>
+
+            <?php 
+        
+            $footer_display_query = $connector -> query("SELECT * FROM `crimes` ORDER BY `crimeId` DESC");
+            if($footer_display_query == true){
+                $q_row = mysqli_fetch_assoc($footer_display_query);
+                if($q_row == 0){
+                    ?>
+                    <footer class="footer p-5 fixed-bottom">
+
+                <p class="text-light">Powered by <a href="#" class="text-warning text-decoration-none">Digital Systems Technologies</a> </p>
+                </footer>
+                <?php
+
+            }else{
+                ?>
+                 <footer class="footer p-5">
+
+                <p class="text-light">Powered by <a href="#" class="text-warning text-decoration-none">Digital Systems Technologies</a> </p>
+                </footer>
+
+                <?php
+            }
+
+        }
+            ?>
+
 <script src="static/bootstrap-5.1.3/dist/js/bootstrap.js" defer></script>
 <script src="static/bootstrap-5.1.3/dist/js/bootstrap.min.js" defer></script>
 <script src="static/js/jquery.js"></script>
@@ -531,5 +756,6 @@ nav{
         $('.loader_bg').fadeToggle();
     }, 3000);
 </script>
+
 </body>
 </html>

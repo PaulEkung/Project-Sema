@@ -62,9 +62,17 @@ background: rgb(5, 69, 93);
         <!-- navigation bar section -->
         <header>
             <nav class="nav navbar navbar-expand p-3" id="login-nav">
-            <img src="static/images/OIP.jpg" class="rounded-circle" style="width: 70px" alt="">
-               <p class="fs-4 text-light"> &nbsp;<?php echo $user ?></p>
-               <a href="pm.dashboard.php" class="ms-auto bi bi-arrow-right-circle fs-2 text-light" ></a>
+            <a href="pm.dashboard.php" class="bi bi-arrow-left-circle-fill fs-1 text-light" ></a>
+                <span class="ms-auto">
+
+                    <?php 
+                if(isset($_SESSION["image"])){
+                    $img = $_SESSION["image"];
+                    echo $img;
+                }
+                ?>
+                </span>
+               
                 </nav>
         </header>
 </section>
