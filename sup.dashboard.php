@@ -29,7 +29,7 @@ require_once 'sessions.php';
 }
 
 body{
-    background: rgba(0, 0, 0, 0.12);
+    background: rgba(0, 0, 0, 0.06);
 }
 
 
