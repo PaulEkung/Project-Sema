@@ -126,6 +126,7 @@ body{
                         </div>";
                     }else{
                         $sql = $connector -> query("SELECT * FROM `crimes` WHERE crimes.progressNumber = '$get_result' or crimes.OffendersName = '$get_result' or crimes.OffendersName LIKE '%$get_result%' or crimes.progressNumber LIKE '%$get_result%'");
+                        #select the required rows
                         if($sql -> num_rows > 0){
                            while($row = $sql->fetch_assoc()){
                             $name = $row["OffendersName"];
